@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import it.sosinski.aspectlibrary.logger.LogMethodAround;
 import it.sosinski.finances.model.FinanceDto;
 import it.sosinski.finances.repository.FinanceRepository;
 import it.sosinski.finances.repository.entity.FinanceEntity;
@@ -20,9 +21,10 @@ public class FinanceServiceImpl implements FinanceService {
 
 	private final FinanceMapper financeMapper;
 
+	@LogMethodAround
 	public List<FinanceDto> getFinancesList() {
-		LOG.debug("getFinancesList():: Entry");
 		final List<FinanceEntity> entities = financeRepository.findAll();
+		LOG.debug("getFinancesList:: entities={}", entities);
 		return entities.stream()
 				.map(financeMapper::toFinanceDto)
 				.toList();

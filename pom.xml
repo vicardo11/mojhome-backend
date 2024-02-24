@@ -22,6 +22,7 @@
 
 	<modules>
 		<module>finances</module>
+		<module>aspect-library</module>
 	</modules>
 
 	<dependencies>

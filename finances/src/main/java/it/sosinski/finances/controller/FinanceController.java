@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.sosinski.aspectlibrary.logger.LogMethodAround;
 import it.sosinski.finances.model.FinanceDto;
 import it.sosinski.finances.service.FinanceService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class FinanceController {
 	private final FinanceService financeService;
 
 	@GetMapping
+	@LogMethodAround
 	public ResponseEntity<List<FinanceDto>> getFinances() {
-		LOG.info("getFinances():: Entry");
 		final List<FinanceDto> financeDtos = financeService.getFinancesList();
 		return ResponseEntity.ok(financeDtos);
 	}
