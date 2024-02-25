@@ -1,6 +1,22 @@
 spring:
   application:
     name: finance-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8100/auth/realms/mojhome
+      client:
+        registration:
+          keycloak:
+            client-id: mojhome-backend
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8100/auth/realms/mojhome
+            user-name-attribute: preferred_username
 
 server:
   port: 8200
