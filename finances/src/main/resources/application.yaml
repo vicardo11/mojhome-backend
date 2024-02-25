@@ -3,7 +3,7 @@ spring:
     name: finance-service
 
 server:
-  port: 8100
+  port: 8200
 
 logging:
   level:
