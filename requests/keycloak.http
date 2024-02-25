@@ -1,0 +1,21 @@
+# Get access token
+POST http://localhost:8100/auth/realms/mojhome/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&
+client_id=mojhome-backend&
+client_secret=NoKYpYMMu9GQqVOkb3OoEhQKXq6FO7Nk&
+username=testuser&
+password=password
+
+> {%
+  client.global.set("auth_token", response.body.access_token);
+%}
+
+###
+
+# Get user info
+POST http://localhost:8100/auth/realms/mojhome/protocol/openid-connect/userinfo
+Authorization: Bearer {{auth_token}}
+
+###
