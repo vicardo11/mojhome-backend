@@ -22,8 +22,8 @@ public class FinanceServiceImpl implements FinanceService {
 	private final FinanceMapper financeMapper;
 
 	@LogMethodAround
-	public List<FinanceDto> getFinancesList() {
-		final List<FinanceEntity> entities = financeRepository.findAll();
+	public List<FinanceDto> getFinancesList(final String userId) {
+		final List<FinanceEntity> entities = financeRepository.findAllByUserId(userId);
 		LOG.debug("getFinancesList:: entities={}", entities);
 		return entities.stream()
 				.map(financeMapper::toFinanceDto)

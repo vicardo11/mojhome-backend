@@ -25,6 +25,7 @@ public class FinanceEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
+	private String userId;
 	private String name;
 	@Enumerated(EnumType.STRING)
 	private FinanceType type;

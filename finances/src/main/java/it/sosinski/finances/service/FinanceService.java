@@ -6,6 +6,6 @@ import it.sosinski.finances.model.FinanceDto;
 
 public interface FinanceService {
 
-	List<FinanceDto> getFinancesList();
+	List<FinanceDto> getFinancesList(final String userId);
 
 }

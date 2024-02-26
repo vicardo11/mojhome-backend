@@ -19,6 +19,8 @@ import it.sosinski.finances.service.mapper.FinanceMapper;
 @MockitoSettings
 class FinanceServiceImplTest {
 
+	private static final String USER_ID = "userId";
+
 	@Mock
 	private FinanceRepository financeRepository;
 
@@ -31,10 +33,10 @@ class FinanceServiceImplTest {
 	@Test
 	void shouldReturnFinanceDtoList() {
 		// Given
-		when(financeRepository.findAll()).thenReturn(createFinanceEntityList());
+		when(financeRepository.findAllByUserId(USER_ID)).thenReturn(createFinanceEntityList());
 
 		// When
-		final List<FinanceDto> result = systemUnderTest.getFinancesList();
+		final List<FinanceDto> result = systemUnderTest.getFinancesList(USER_ID);
 
 		// Then
 		assertThat(result)

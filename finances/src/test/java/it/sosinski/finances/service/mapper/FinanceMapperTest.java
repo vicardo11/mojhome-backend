@@ -21,12 +21,14 @@ class FinanceMapperTest {
 
 	private static final LocalDate LOCAL_DATE = LocalDate.parse("2021-01-01");
 
+	private static final String USER_ID = "userId";
+
 	private final FinanceMapper financeMapper = FinanceMapper.INSTANCE;
 
 	@Test
 	void shouldMapToFinanceDto() {
 		// Given
-		final FinanceEntity financeEntity = new FinanceEntity(ID, NAME, FinanceType.EXPENSE, AMOUNT,
+		final FinanceEntity financeEntity = new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT,
 				LOCAL_DATE);
 
 		// When
@@ -35,11 +37,13 @@ class FinanceMapperTest {
 		assertThat(financeDto)
 				.extracting(
 						FinanceDto::id,
+						FinanceDto::userId,
 						FinanceDto::name,
 						FinanceDto::type,
 						FinanceDto::amount,
 						FinanceDto::date)
 				.containsExactly(ID,
+						USER_ID,
 						NAME,
 						FinanceType.EXPENSE,
 						AMOUNT,
