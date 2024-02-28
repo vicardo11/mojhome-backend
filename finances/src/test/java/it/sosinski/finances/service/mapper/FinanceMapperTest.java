@@ -37,13 +37,11 @@ class FinanceMapperTest {
 		assertThat(financeDto)
 				.extracting(
 						FinanceDto::id,
-						FinanceDto::userId,
 						FinanceDto::name,
 						FinanceDto::type,
 						FinanceDto::amount,
 						FinanceDto::date)
 				.containsExactly(ID,
-						USER_ID,
 						NAME,
 						FinanceType.EXPENSE,
 						AMOUNT,

@@ -75,9 +75,9 @@ class FinanceControllerTest {
 
 	private List<FinanceDto> createFinanceDtoList() {
 		return List.of(
-				new FinanceDto("1", "1", "Groceries", FinanceType.EXPENSE, BigDecimal.valueOf(50.25), LocalDate.parse("2021-01-01")),
-				new FinanceDto("2", "1", "Transportation", FinanceType.EXPENSE, BigDecimal.valueOf(30.5), LocalDate.parse("2021-01-01")),
-				new FinanceDto("3", "2", "Insurance", FinanceType.EXPENSE, BigDecimal.valueOf(75.75), LocalDate.parse("2021-01-01")),
-				new FinanceDto("4", "2", "Salary", FinanceType.INCOME, BigDecimal.valueOf(100), LocalDate.parse("2021-01-01")));
+				new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE),
+				new FinanceDto("2", "Transportation", FinanceType.EXPENSE, BigDecimal.valueOf(30.5), LOCAL_DATE),
+				new FinanceDto("3", "Insurance", FinanceType.EXPENSE, BigDecimal.valueOf(75.75), LOCAL_DATE),
+				new FinanceDto("4", "Salary", FinanceType.INCOME, BigDecimal.valueOf(100), LOCAL_DATE));
 	}
 }
