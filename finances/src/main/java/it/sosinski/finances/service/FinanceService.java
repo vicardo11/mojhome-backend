@@ -9,4 +9,6 @@ public interface FinanceService {
 	List<FinanceDto> getAll(final String userId);
 
 	FinanceDto update(final FinanceDto financeDto, final String userId);
+
+	FinanceDto create(final FinanceDto financeDto, final String name);
 }

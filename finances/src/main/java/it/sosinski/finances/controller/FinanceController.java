@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,13 @@ public class FinanceController {
 	public ResponseEntity<FinanceDto> updateFinance(@RequestBody final FinanceDto financeDto, final Principal principal) {
 		final FinanceDto updatedFinanceDto = financeService.update(financeDto, principal.getName());
 		return ResponseEntity.ok(updatedFinanceDto);
+	}
+
+	@PostMapping
+	@LogMethodAround
+	public ResponseEntity<FinanceDto> createFinance(@RequestBody final FinanceDto financeDto, final Principal principal) {
+		final FinanceDto createdFinanceDto = financeService.create(financeDto, principal.getName());
+		return ResponseEntity.ok(createdFinanceDto);
 	}
 
 }

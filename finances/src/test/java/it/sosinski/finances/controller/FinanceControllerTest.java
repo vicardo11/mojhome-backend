@@ -85,6 +85,21 @@ class FinanceControllerTest {
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
+	@Test
+	void testCreateFinanceSuccess() {
+		// Given
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		when(financeService.create(financeDto, USER_ID)).thenReturn(financeDto);
+
+		// When
+		final ResponseEntity<FinanceDto> result = systemUnderTest.createFinance(financeDto, PRINCIPAL);
+
+		// Then
+		verify(financeService).create(financeDto, PRINCIPAL.getName());
+		assertThat(result.getBody()).isEqualTo(financeDto);
+		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
 	private List<FinanceDto> createFinanceDtoList() {
 		return List.of(
 				new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE),

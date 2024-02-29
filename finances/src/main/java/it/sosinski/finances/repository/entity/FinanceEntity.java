@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import it.sosinski.finances.model.FinanceType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,10 +28,14 @@ public class FinanceEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
+	@Column(nullable = false)
 	private String userId;
+	@Column(nullable = false)
 	private String name;
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private FinanceType type;
+	@Column(nullable = false)
 	private BigDecimal amount;
 	private LocalDate date;
 

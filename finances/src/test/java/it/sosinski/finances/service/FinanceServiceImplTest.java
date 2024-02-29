@@ -116,6 +116,34 @@ class FinanceServiceImplTest {
 				.isInstanceOf(UserMismatchException.class);
 	}
 
+	@Test
+	void shouldCreateFinance() {
+		// Given
+		final FinanceDto financeDto = createFinanceDto();
+		final FinanceEntity financeEntityToSave = createFinanceEntity();
+		final FinanceEntity savedFinanceEntity = createFinanceEntity();
+		when(financeMapper.toFinanceEntity(financeDto, USER_ID)).thenReturn(financeEntityToSave);
+		when(financeRepository.save(financeEntityToSave)).thenReturn(savedFinanceEntity);
+
+		// When
+		final FinanceDto result = systemUnderTest.create(financeDto, USER_ID);
+
+		// Then
+		assertThat(result)
+				.extracting(
+						FinanceDto::id,
+						FinanceDto::name,
+						FinanceDto::amount,
+						FinanceDto::type,
+						FinanceDto::date)
+				.containsExactly(
+						ID,
+						NAME,
+						AMOUNT,
+						FinanceType.EXPENSE,
+						LOCAL_DATE);
+	}
+
 	private FinanceEntity createFinanceEntity() {
 		return new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
 	}

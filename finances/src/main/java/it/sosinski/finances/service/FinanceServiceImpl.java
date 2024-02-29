@@ -49,6 +49,13 @@ public class FinanceServiceImpl implements FinanceService {
 		return financeMapper.toFinanceDto(savedFinanceEntity);
 	}
 
+	@Override
+	public FinanceDto create(final FinanceDto financeDto, final String name) {
+		final FinanceEntity financeEntityToSave = financeMapper.toFinanceEntity(financeDto, name);
+		final FinanceEntity savedFinanceEntity = saveToRepo(financeEntityToSave);
+		return financeMapper.toFinanceDto(savedFinanceEntity);
+	}
+
 	private FinanceEntity saveToRepo(final FinanceEntity financeEntity) {
 		return financeRepository.save(financeEntity);
 	}
