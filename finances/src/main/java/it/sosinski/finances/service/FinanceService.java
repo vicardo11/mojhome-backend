@@ -6,6 +6,7 @@ import it.sosinski.finances.model.FinanceDto;
 
 public interface FinanceService {
 
-	List<FinanceDto> getFinancesList(final String userId);
+	List<FinanceDto> getAll(final String userId);
 
+	FinanceDto update(final FinanceDto financeDto, final String userId);
 }

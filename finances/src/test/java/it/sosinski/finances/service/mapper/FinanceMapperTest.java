@@ -48,4 +48,29 @@ class FinanceMapperTest {
 						LOCAL_DATE);
 	}
 
+	@Test
+	void shouldMapToFinanceEntity() {
+		// Given
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+
+		// When
+		final FinanceEntity financeEntity = financeMapper.toFinanceEntity(financeDto, USER_ID);
+
+		// Then
+		assertThat(financeEntity)
+				.extracting(
+						FinanceEntity::getId,
+						FinanceEntity::getName,
+						FinanceEntity::getType,
+						FinanceEntity::getAmount,
+						FinanceEntity::getUserId,
+						FinanceEntity::getDate)
+				.containsExactly(ID,
+						NAME,
+						FinanceType.EXPENSE,
+						AMOUNT,
+						USER_ID,
+						LOCAL_DATE);
+	}
+
 }

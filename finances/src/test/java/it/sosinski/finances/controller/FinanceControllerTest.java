@@ -25,6 +25,14 @@ class FinanceControllerTest {
 
 	private static final String USER_ID = "userId";
 
+	private static final String ID = "1";
+
+	private static final String NAME = "Groceries";
+
+	private static final BigDecimal AMOUNT = BigDecimal.valueOf(50.25);
+
+	private static final LocalDate LOCAL_DATE = LocalDate.parse("2021-01-01");
+
 	private final Principal PRINCIPAL = () -> USER_ID;
 
 	@Mock
@@ -34,43 +42,47 @@ class FinanceControllerTest {
 	private FinanceController systemUnderTest;
 
 	@Test
-	void shouldReturnStatusIsOk() {
+	void testGetFinancesSuccess() {
 		// Given
-		when(financeService.getFinancesList(USER_ID)).thenReturn(createFinanceDtoList());
+		when(financeService.getAll(USER_ID)).thenReturn(createFinanceDtoList());
 
 		// When
 		final ResponseEntity<List<FinanceDto>> response = systemUnderTest.getFinances(PRINCIPAL);
 
 		// Then
-		verify(financeService).getFinancesList(USER_ID);
+		verify(financeService).getAll(USER_ID);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-	}
-
-	@Test
-	void shouldReturnFinanceDtoList() {
-		// Given
-		when(financeService.getFinancesList(USER_ID)).thenReturn(createFinanceDtoList());
-
-		// When
-		final ResponseEntity<List<FinanceDto>> response = systemUnderTest.getFinances(PRINCIPAL);
-
-		// Then
-		verify(financeService).getFinancesList(USER_ID);
 		assertThat(response.getBody()).isNotNull();
+
 	}
 
 	@Test
-	void shouldReturnEmptyListWhenServiceReturnedNull() {
+	void testGetFinancesSuccessWhenListEmpty() {
 		// Given
-		when(financeService.getFinancesList(USER_ID)).thenReturn(null);
+		when(financeService.getAll(USER_ID)).thenReturn(null);
 
 		// When
 		final ResponseEntity<List<FinanceDto>> response = systemUnderTest.getFinances(PRINCIPAL);
 
 		// Then
-		verify(financeService).getFinancesList(USER_ID);
+		verify(financeService).getAll(USER_ID);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNull();
+	}
+
+	@Test
+	void testUpdateFinanceSuccess() {
+		// Given
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		when(financeService.update(financeDto, USER_ID)).thenReturn(financeDto);
+
+		// When
+		final ResponseEntity<FinanceDto> result = systemUnderTest.updateFinance(financeDto, PRINCIPAL);
+
+		// Then
+		verify(financeService).update(financeDto, PRINCIPAL.getName());
+		assertThat(result.getBody()).isEqualTo(financeDto);
+		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
 	private List<FinanceDto> createFinanceDtoList() {
