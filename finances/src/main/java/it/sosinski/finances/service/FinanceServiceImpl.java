@@ -40,7 +40,8 @@ public class FinanceServiceImpl implements FinanceService {
 		final Optional<FinanceEntity> financeEntityOptional = financeRepository.findById(financeDto.id());
 		final FinanceEntity financeEntity = financeEntityOptional.orElseThrow(() -> new FinanceNotFoundException(financeDto.id()));
 
-		if (!financeEntity.getUserId().equals(userId)) {
+		if (!isOwner(userId, financeEntity)) {
+			LOG.error("update:: User with id={} is not allowed to update finance with id={}", userId, financeDto.id());
 			throw new UserMismatchException("User is not allowed to update finance with id=" + financeDto.id());
 		}
 
@@ -50,10 +51,31 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 
 	@Override
+	@LogMethodAround
 	public FinanceDto create(final FinanceDto financeDto, final String name) {
 		final FinanceEntity financeEntityToSave = financeMapper.toFinanceEntity(financeDto, name);
 		final FinanceEntity savedFinanceEntity = saveToRepo(financeEntityToSave);
 		return financeMapper.toFinanceDto(savedFinanceEntity);
+	}
+
+	@Override
+	@LogMethodAround
+	public List<FinanceDto> delete(final String financeId, final String userId) {
+		final Optional<FinanceEntity> financeEntityOptional = financeRepository.findById(financeId);
+		final FinanceEntity financeEntity = financeEntityOptional.orElseThrow(() -> new FinanceNotFoundException(financeId));
+		if (!isOwner(userId, financeEntity)) {
+			LOG.error("delete:: User with id={} is not allowed to delete finance with id={}", userId, financeId);
+			throw new UserMismatchException("User is not allowed to delete finance with id=" + financeId);
+		}
+		financeRepository.deleteById(financeId);
+		final List<FinanceEntity> updatedFinanceEntities = financeRepository.findAllByUserId(userId);
+		return updatedFinanceEntities.stream()
+				.map(financeMapper::toFinanceDto)
+				.toList();
+	}
+
+	private static boolean isOwner(final String userId, final FinanceEntity financeEntity) {
+		return financeEntity.getUserId().equals(userId);
 	}
 
 	private FinanceEntity saveToRepo(final FinanceEntity financeEntity) {

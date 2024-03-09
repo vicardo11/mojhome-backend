@@ -15,12 +15,22 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = { UserMismatchException.class})
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	public @ResponseBody ErrorResponse handler(Exception exception) {
+	public @ResponseBody ErrorResponse userMismatchExceptionHandler(Exception exception) {
 		LOG.debug("handler:: exception={}", exception.getMessage());
 		return ErrorResponse.builder()
 				.message(exception.getMessage())
 				.code(HttpStatus.BAD_REQUEST.value())
 				.build();
 	}
+
+//	@ExceptionHandler(value = { RuntimeException.class})
+//	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+//	public @ResponseBody ErrorResponse runtimeExceptionHandler(Exception exception) {
+//		LOG.debug("handler:: exception={}", exception.getMessage());
+//		return ErrorResponse.builder()
+//				.message("Internal server error")
+//				.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+//				.build();
+//	}
 
 }

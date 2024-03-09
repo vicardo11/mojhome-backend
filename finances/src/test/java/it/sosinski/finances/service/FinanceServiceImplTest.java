@@ -2,6 +2,7 @@ package it.sosinski.finances.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -142,6 +143,40 @@ class FinanceServiceImplTest {
 						AMOUNT,
 						FinanceType.EXPENSE,
 						LOCAL_DATE);
+	}
+
+	@Test
+	void shouldDeleteFinanceWhenUserIsOwner() {
+		// Given
+		final FinanceEntity financeEntity = new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		when(financeRepository.findById(ID)).thenReturn(Optional.of(financeEntity));
+
+		// When
+		systemUnderTest.delete(ID, USER_ID);
+
+		// Then
+		verify(financeRepository).deleteById(ID);
+	}
+
+	@Test
+	void shouldThrowFinanceNotFoundExceptionWhenFinanceDoesNotExist() {
+		// Given
+		when(financeRepository.findById(ID)).thenReturn(Optional.empty());
+
+		// When/Then
+		assertThatThrownBy(() -> systemUnderTest.delete(ID, USER_ID))
+				.isInstanceOf(FinanceNotFoundException.class);
+	}
+
+	@Test
+	void shouldThrowUserMismatchExceptionWhenUserIsNotOwner() {
+		// Given
+		final FinanceEntity financeEntity = new FinanceEntity(ID, "otherUserId", NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		when(financeRepository.findById(ID)).thenReturn(Optional.of(financeEntity));
+
+		// When/Then
+		assertThatThrownBy(() -> systemUnderTest.delete(ID, USER_ID))
+				.isInstanceOf(UserMismatchException.class);
 	}
 
 	private FinanceEntity createFinanceEntity() {

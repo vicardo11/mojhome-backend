@@ -1,6 +1,9 @@
 package it.sosinski.finances.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -98,6 +101,23 @@ class FinanceControllerTest {
 		verify(financeService).create(financeDto, PRINCIPAL.getName());
 		assertThat(result.getBody()).isEqualTo(financeDto);
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
+	void shouldDeleteFinanceWhenUserIsOwner() {
+		doNothing().when(financeService).delete(ID, USER_ID);
+		systemUnderTest.deleteFinance(ID, PRINCIPAL);
+
+		verify(financeService).delete(ID, USER_ID);
+	}
+
+	@Test
+	void shouldThrowExceptionWhenFinanceDoesNotExist() {
+		final Principal principal = () -> USER_ID;
+		doThrow(new RuntimeException()).when(financeService).delete(ID, USER_ID);
+
+		assertThatThrownBy(() -> systemUnderTest.deleteFinance(ID, principal))
+				.isInstanceOf(RuntimeException.class);
 	}
 
 	private List<FinanceDto> createFinanceDtoList() {

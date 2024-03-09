@@ -11,4 +11,6 @@ public interface FinanceService {
 	FinanceDto update(final FinanceDto financeDto, final String userId);
 
 	FinanceDto create(final FinanceDto financeDto, final String name);
+
+	List<FinanceDto> delete(final String financeId, final String name);
 }
