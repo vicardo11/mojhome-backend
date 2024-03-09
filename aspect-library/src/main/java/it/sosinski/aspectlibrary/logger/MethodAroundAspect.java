@@ -60,6 +60,9 @@ public class MethodAroundAspect {
 	}
 
 	private String formatExitMessage(final String methodName, final Object result) {
+		if (result == null) {
+			return String.format("%s()=Exit", methodName);
+		}
 		final String resultAsString = result.toString();
 		return String.format("%s()=%s", methodName, resultAsString);
 	}
