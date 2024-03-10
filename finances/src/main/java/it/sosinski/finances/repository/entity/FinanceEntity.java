@@ -37,6 +37,7 @@ public class FinanceEntity {
 	private FinanceType type;
 	@Column(nullable = false)
 	private BigDecimal amount;
+	@Column(nullable = false)
 	private LocalDate date;
 
 }
