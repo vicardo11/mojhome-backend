@@ -23,13 +23,17 @@ class FinanceMapperTest {
 
 	private static final String USER_ID = "userId";
 
+	private static final String CATEGORY_ID = "100";
+
+	private static final String CATEGORY_NAME = "Home";
+
 	private final FinanceMapper financeMapper = FinanceMapper.INSTANCE;
 
 	@Test
 	void shouldMapToFinanceDto() {
 		// Given
 		final FinanceEntity financeEntity = new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT,
-				LOCAL_DATE);
+				LOCAL_DATE, null);
 
 		// When
 		final FinanceDto financeDto = financeMapper.toFinanceDto(financeEntity);
@@ -51,7 +55,7 @@ class FinanceMapperTest {
 	@Test
 	void shouldMapToFinanceEntity() {
 		// Given
-		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, CATEGORY_ID, CATEGORY_NAME);
 
 		// When
 		final FinanceEntity financeEntity = financeMapper.toFinanceEntity(financeDto, USER_ID);
@@ -64,12 +68,14 @@ class FinanceMapperTest {
 						FinanceEntity::getType,
 						FinanceEntity::getAmount,
 						FinanceEntity::getUserId,
+						e -> e.getCategory().getId(),
 						FinanceEntity::getDate)
 				.containsExactly(ID,
 						NAME,
 						FinanceType.EXPENSE,
 						AMOUNT,
 						USER_ID,
+						CATEGORY_ID,
 						LOCAL_DATE);
 	}
 

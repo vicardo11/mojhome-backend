@@ -9,3 +9,4 @@ spring:
     password: admin
   jpa:
     defer-datasource-initialization: true # Defer the insert data until schema is created
+#    show-sql: true

@@ -2,7 +2,6 @@ package it.sosinski.finances.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -76,7 +75,7 @@ class FinanceControllerTest {
 	@Test
 	void testUpdateFinanceSuccess() {
 		// Given
-		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null, null);
 		when(financeService.update(financeDto, USER_ID)).thenReturn(financeDto);
 
 		// When
@@ -91,7 +90,7 @@ class FinanceControllerTest {
 	@Test
 	void testCreateFinanceSuccess() {
 		// Given
-		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		final FinanceDto financeDto = new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null, null);
 		when(financeService.create(financeDto, USER_ID)).thenReturn(financeDto);
 
 		// When
@@ -105,10 +104,18 @@ class FinanceControllerTest {
 
 	@Test
 	void shouldDeleteFinanceWhenUserIsOwner() {
-		doNothing().when(financeService).delete(ID, USER_ID);
+		// Given
+		final List<FinanceDto> financeDtoList = List.of(new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null, null));
+		when(financeService.delete(ID, USER_ID)).thenReturn(financeDtoList);
+
+		// When
 		systemUnderTest.deleteFinance(ID, PRINCIPAL);
 
+		// Then
 		verify(financeService).delete(ID, USER_ID);
+		assertThat(systemUnderTest.deleteFinance(ID, PRINCIPAL)).isNotNull();
+		assertThat(systemUnderTest.deleteFinance(ID, PRINCIPAL).getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(systemUnderTest.deleteFinance(ID, PRINCIPAL).getBody()).isEqualTo(financeDtoList);
 	}
 
 	@Test
@@ -122,9 +129,9 @@ class FinanceControllerTest {
 
 	private List<FinanceDto> createFinanceDtoList() {
 		return List.of(
-				new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE),
-				new FinanceDto("2", "Transportation", FinanceType.EXPENSE, BigDecimal.valueOf(30.5), LOCAL_DATE),
-				new FinanceDto("3", "Insurance", FinanceType.EXPENSE, BigDecimal.valueOf(75.75), LOCAL_DATE),
-				new FinanceDto("4", "Salary", FinanceType.INCOME, BigDecimal.valueOf(100), LOCAL_DATE));
+				new FinanceDto(ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null, null),
+				new FinanceDto("2", "Transportation", FinanceType.EXPENSE, BigDecimal.valueOf(30.5), LOCAL_DATE, null, null),
+				new FinanceDto("3", "Insurance", FinanceType.EXPENSE, BigDecimal.valueOf(75.75), LOCAL_DATE, null, null),
+				new FinanceDto("4", "Salary", FinanceType.INCOME, BigDecimal.valueOf(100), LOCAL_DATE, null, null));
 	}
 }

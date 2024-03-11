@@ -32,8 +32,7 @@ class CategoryServiceImplTest {
 	void shouldReturnCategoriesWhenCategoriesExist() {
 		//Given
 		List<CategoryEntity> categoryEntities = List.of(
-				new CategoryEntity("1", "Groceries", FinanceType.EXPENSE)
-		);
+				new CategoryEntity("1", "Groceries", FinanceType.EXPENSE, null));
 		List<CategoryDto> expectedCategories = List.of(
 				new CategoryDto("1", "Groceries", FinanceType.EXPENSE)
 		);

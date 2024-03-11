@@ -148,7 +148,7 @@ class FinanceServiceImplTest {
 	@Test
 	void shouldDeleteFinanceWhenUserIsOwner() {
 		// Given
-		final FinanceEntity financeEntity = new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		final FinanceEntity financeEntity = new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null);
 		when(financeRepository.findById(ID)).thenReturn(Optional.of(financeEntity));
 
 		// When
@@ -171,7 +171,7 @@ class FinanceServiceImplTest {
 	@Test
 	void shouldThrowUserMismatchExceptionWhenUserIsNotOwner() {
 		// Given
-		final FinanceEntity financeEntity = new FinanceEntity(ID, "otherUserId", NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		final FinanceEntity financeEntity = new FinanceEntity(ID, "otherUserId", NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null);
 		when(financeRepository.findById(ID)).thenReturn(Optional.of(financeEntity));
 
 		// When/Then
@@ -180,7 +180,7 @@ class FinanceServiceImplTest {
 	}
 
 	private FinanceEntity createFinanceEntity() {
-		return new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE);
+		return new FinanceEntity(ID, USER_ID, NAME, FinanceType.EXPENSE, AMOUNT, LOCAL_DATE, null);
 	}
 
 	private FinanceDto createFinanceDto() {

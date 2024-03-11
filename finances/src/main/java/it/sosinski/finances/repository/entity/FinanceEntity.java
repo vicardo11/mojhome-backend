@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(callSuper = true)
 @Getter
 @Setter
 @Entity(name = "finance")
@@ -39,5 +40,7 @@ public class FinanceEntity {
 	private BigDecimal amount;
 	@Column(nullable = false)
 	private LocalDate date;
+	@ManyToOne
+	private CategoryEntity category;
 
 }

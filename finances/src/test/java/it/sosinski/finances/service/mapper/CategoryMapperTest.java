@@ -14,7 +14,7 @@ class CategoryMapperTest {
     @Test
     void shouldMapToCategoryDtoWhenCategoryEntityIsNotNull() {
 		//Given
-        final CategoryEntity categoryEntity = new CategoryEntity("1", "Groceries", FinanceType.EXPENSE);
+        final CategoryEntity categoryEntity = new CategoryEntity("1", "Groceries", FinanceType.EXPENSE, null);
 
 		//When
         final CategoryDto categoryDto = categoryMapper.toCategoryDto(categoryEntity);
