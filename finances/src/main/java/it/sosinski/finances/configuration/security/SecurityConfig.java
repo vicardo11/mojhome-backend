@@ -1,4 +1,4 @@
-package it.sosinski.finances.security;
+package it.sosinski.finances.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

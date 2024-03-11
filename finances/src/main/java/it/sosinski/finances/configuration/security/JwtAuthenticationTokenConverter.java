@@ -1,4 +1,4 @@
-package it.sosinski.finances.security;
+package it.sosinski.finances.configuration.security;
 
 import java.util.Collection;
 import java.util.Collections;

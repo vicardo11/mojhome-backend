@@ -15,6 +15,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import it.sosinski.finances.configuration.security.JwtAuthenticationTokenConverter;
+
 class JwtAuthenticationTokenConverterTest {
 
 	private JwtAuthenticationTokenConverter tokenConverter;
