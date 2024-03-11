@@ -17,3 +17,20 @@ VALUES ('1', 'a8633568-1818-472b-9f18-81450cdb855a', 'Groceries', 'EXPENSE', 50.
        ('16', 'a8633568-1818-472b-9f18-81450cdb855a', 'Investment 3', 'INCOME', 621, '2023-12-21'),
        ('17', 'a8633568-1818-472b-9f18-81450cdb855a', 'Investment 4', 'INCOME', 64, '2023-12-03'),
        ('18', 'a8633568-1818-472b-9f18-81450cdb855a', 'Investment 5', 'INCOME', 13, '2023-12-07');
+
+INSERT INTO finance_category (id, name, type)
+VALUES ('1', 'Housing', 'EXPENSE'),
+       ('2', 'Transportation', 'EXPENSE'),
+       ('3', 'Food', 'EXPENSE'),
+       ('4', 'Health', 'EXPENSE'),
+       ('5', 'Insurance', 'EXPENSE'),
+       ('6', 'Personal', 'EXPENSE'),
+       ('7', 'Debt Payments', 'EXPENSE'),
+       ('8', 'Travel', 'EXPENSE'),
+       ('9', 'Gifts & Donations', 'EXPENSE'),
+       ('10', 'Other', 'EXPENSE'),
+       ('11', 'Salary', 'INCOME'),
+       ('12', 'Investment', 'INCOME'),
+       ('13', 'Retirement', 'INCOME'),
+       ('14', 'Passive Income', 'INCOME'),
+       ('15', 'Other', 'INCOME');
