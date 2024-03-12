@@ -16,11 +16,14 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoSettings;
 
+import it.sosinski.finances.exception.model.CategoryNotFoundException;
 import it.sosinski.finances.exception.model.FinanceNotFoundException;
 import it.sosinski.finances.exception.model.UserMismatchException;
 import it.sosinski.finances.model.FinanceDto;
 import it.sosinski.finances.model.FinanceType;
+import it.sosinski.finances.repository.CategoryRepository;
 import it.sosinski.finances.repository.FinanceRepository;
+import it.sosinski.finances.repository.entity.CategoryEntity;
 import it.sosinski.finances.repository.entity.FinanceEntity;
 import it.sosinski.finances.service.mapper.FinanceMapper;
 
@@ -41,6 +44,9 @@ class FinanceServiceImplTest {
 
 	@Mock
 	private FinanceRepository financeRepository;
+
+	@Mock
+	private CategoryRepository categoryRepository;
 
 	@Spy
 	private FinanceMapper financeMapper = FinanceMapper.INSTANCE;
@@ -118,12 +124,14 @@ class FinanceServiceImplTest {
 	}
 
 	@Test
-	void shouldCreateFinance() {
+	void shouldCreateFinanceWhenCategoryExists() {
 		// Given
 		final FinanceDto financeDto = createFinanceDto();
 		final FinanceEntity financeEntityToSave = createFinanceEntity();
 		final FinanceEntity savedFinanceEntity = createFinanceEntity();
+		final CategoryEntity categoryEntity = new CategoryEntity();
 		when(financeMapper.toFinanceEntity(financeDto, USER_ID)).thenReturn(financeEntityToSave);
+		when(categoryRepository.findById(financeDto.categoryId())).thenReturn(Optional.of(categoryEntity));
 		when(financeRepository.save(financeEntityToSave)).thenReturn(savedFinanceEntity);
 
 		// When
@@ -143,6 +151,17 @@ class FinanceServiceImplTest {
 						AMOUNT,
 						FinanceType.EXPENSE,
 						LOCAL_DATE);
+	}
+
+	@Test
+	void shouldThrowCategoryNotFoundExceptionWhenCategoryDoesNotExist() {
+		// Given
+		final FinanceDto financeDto = createFinanceDto();
+		when(categoryRepository.findById(financeDto.categoryId())).thenReturn(Optional.empty());
+
+		// When/Then
+		assertThatThrownBy(() -> systemUnderTest.create(financeDto, USER_ID))
+				.isInstanceOf(CategoryNotFoundException.class);
 	}
 
 	@Test

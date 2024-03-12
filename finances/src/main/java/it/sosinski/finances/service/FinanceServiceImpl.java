@@ -6,10 +6,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import it.sosinski.aspectlibrary.logger.LogMethodAround;
+import it.sosinski.finances.exception.model.CategoryNotFoundException;
 import it.sosinski.finances.exception.model.FinanceNotFoundException;
 import it.sosinski.finances.exception.model.UserMismatchException;
 import it.sosinski.finances.model.FinanceDto;
+import it.sosinski.finances.repository.CategoryRepository;
 import it.sosinski.finances.repository.FinanceRepository;
+import it.sosinski.finances.repository.entity.CategoryEntity;
 import it.sosinski.finances.repository.entity.FinanceEntity;
 import it.sosinski.finances.service.mapper.FinanceMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 public class FinanceServiceImpl implements FinanceService {
 
 	private final FinanceRepository financeRepository;
+
+	private final CategoryRepository categoryRepository;
 
 	private final FinanceMapper financeMapper;
 
@@ -54,6 +59,9 @@ public class FinanceServiceImpl implements FinanceService {
 	@LogMethodAround
 	public FinanceDto create(final FinanceDto financeDto, final String name) {
 		final FinanceEntity financeEntityToSave = financeMapper.toFinanceEntity(financeDto, name);
+		final CategoryEntity categoryEntity = categoryRepository.findById(financeDto.categoryId())
+				.orElseThrow(() -> new CategoryNotFoundException(financeDto.categoryId()));
+		financeEntityToSave.setCategory(categoryEntity);
 		final FinanceEntity savedFinanceEntity = saveToRepo(financeEntityToSave);
 		return financeMapper.toFinanceDto(savedFinanceEntity);
 	}
