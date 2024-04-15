@@ -6,7 +6,7 @@ grant_type=password&
 client_id=mojhome-backend&
 client_secret=NoKYpYMMu9GQqVOkb3OoEhQKXq6FO7Nk&
 username=testuser&
-password=password
+password=test
 
 > {%
   client.global.set("auth_token", response.body.access_token);
@@ -16,6 +16,12 @@ password=password
 
 # Get user info
 POST http://localhost:8100/auth/realms/mojhome/protocol/openid-connect/userinfo
+Authorization: Bearer {{auth_token}}
+
+###
+
+# Get finances
+GET http://localhost:8200/api/secured/finances
 Authorization: Bearer {{auth_token}}
 
 ###
