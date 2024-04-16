@@ -25,7 +25,7 @@ public class SecurityConfig {
 		return http
 
 				.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-						.anyRequest().hasRole("user"))
+						.anyRequest().authenticated())
 				.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(
 						jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationTokenConverter)))
 				.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
