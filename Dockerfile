@@ -17,4 +17,4 @@ COPY --from=build /app/finances/target/finances-1.0.0.jar finances-1.0.0.jar
 
 EXPOSE 8200
 
-CMD ["java", "-jar", "finances-1.0.0.jar"]
+CMD ["java", "-Dspring.profiles.active=test", "-jar", "finances-1.0.0.jar"]
