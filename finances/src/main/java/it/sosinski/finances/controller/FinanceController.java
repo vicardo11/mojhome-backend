@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/secured/finances")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://mojhome.vercel.app")
 @RequiredArgsConstructor
 @Slf4j
 public class FinanceController {
